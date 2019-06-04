@@ -4,7 +4,7 @@ import java.awt.event.KeyListener;
 
 public class Camera implements KeyListener{
 	public double xPos, yPos, xDir, yDir, xPlane, yPlane;
-	public boolean left, right, forward, back;
+	public boolean left, right, forward, back, strLeft, strRight;
 	public final double MOVE_SPEED = .08;
 	public final double ROTATION_SPEED = .045;
 	public Camera(double x, double y, double xd, double yd, double xp, double yp) {
@@ -17,27 +17,35 @@ public class Camera implements KeyListener{
 	}
 	public void keyPressed(KeyEvent key) {
 		if((key.getKeyCode() == KeyEvent.VK_A))
-			left = true;
+			strLeft = true;
 		if((key.getKeyCode() == KeyEvent.VK_D))
-			right = true;
+			strRight = true;
 		if((key.getKeyCode() == KeyEvent.VK_W))
 			forward = true;
 		if((key.getKeyCode() == KeyEvent.VK_S))
 			back = true;
+		if((key.getKeyCode() == KeyEvent.VK_LEFT))
+			left = true;
+		if((key.getKeyCode() == KeyEvent.VK_RIGHT))
+			right = true;
 	}
 	public void keyReleased(KeyEvent key) {
 		if((key.getKeyCode() == KeyEvent.VK_A))
-			left = false;
+			strLeft = false;
 		if((key.getKeyCode() == KeyEvent.VK_D))
-			right = false;
+			strRight = false;
 		if((key.getKeyCode() == KeyEvent.VK_W))
 			forward = false;
 		if((key.getKeyCode() == KeyEvent.VK_S))
 			back = false;
+		if((key.getKeyCode() == KeyEvent.VK_LEFT))
+			left = false;
+		if((key.getKeyCode() == KeyEvent.VK_RIGHT))
+			right = false;
 	}
 	public void update(int[][] map) {
 		if(forward) {
-			if(map[(int)(xPos + xDir * MOVE_SPEED)][(int)yPos] == 0) {
+			if(map[(int)(xPos + xDir * MOVE_SPEED)][(int)yPos] == 0) {  //xPos + x Coordinate on unit circle e.g( 0 +.3*10) every update, so you move.
 				xPos+=xDir*MOVE_SPEED;
 			}
 			if(map[(int)xPos][(int)(yPos + yDir * MOVE_SPEED)] ==0)
@@ -48,6 +56,24 @@ public class Camera implements KeyListener{
 				xPos-=xDir*MOVE_SPEED;
 			if(map[(int)xPos][(int)(yPos - yDir * MOVE_SPEED)]==0)
 				yPos-=yDir*MOVE_SPEED;
+		}
+		if(strLeft) {
+			double xDirL = Math.cos(Math.acos(xDir)+(Math.PI/2.0));
+			double yDirL = Math.sin(Math.asin(yDir)+(Math.PI/2.0));
+			if(map[(int)(xPos + xDirL * MOVE_SPEED)][(int)yPos] == 0) {  //xPos + x Coordinate on unit circle e.g( 0 +.3*10) every update, so you move.
+				xPos+=xDirL*MOVE_SPEED;
+			}
+			if(map[(int)xPos][(int)(yPos + yDirL * MOVE_SPEED)] ==0)
+				yPos+=yDirL*MOVE_SPEED;
+		}
+		if(strRight) {
+			double xDirR = Math.cos(Math.acos(xDir)-(Math.PI/2.0));
+			double yDirR = Math.sin(Math.asin(yDir)-(Math.PI/2.0));
+			if(map[(int)(xPos + xDirR * MOVE_SPEED)][(int)yPos] == 0) {  //xPos + x Coordinate on unit circle e.g( 0 +.3*10) every update, so you move.
+				xPos+=xDirR*MOVE_SPEED;
+			}
+			if(map[(int)xPos][(int)(yPos + yDirR * MOVE_SPEED)] ==0)
+				yPos+=yDirR*MOVE_SPEED;
 		}
 		if(right) {
 			double oldxDir=xDir;
