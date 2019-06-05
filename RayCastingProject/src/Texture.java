@@ -26,8 +26,8 @@ public class Texture {
 		}
 	}
 	
-	public static Texture wood = new Texture("E:\\eclipse-workspace\\InstructablesGame\\res\\gun.jpg", 64);
-	public static Texture brick = new Texture("E:\\eclipse-workspace\\InstructablesGame\\res\\thingo.jpg", 64);
-	public static Texture bluestone = new Texture("E:\\eclipse-workspace\\InstructablesGame\\res\\gey.jpg", 64);
-	public static Texture stone = new Texture("E:\\eclipse-workspace\\InstructablesGame\\res\\smoil.jpg", 64);
+	public static Texture wood = new Texture("E:\\eclipse-workspace\\RayCastingProject\\res\\bluestone.jpg", 64);
+	public static Texture brick = new Texture("E:\\eclipse-workspace\\RayCastingProject\\res\\greystone.jpg", 64);
+	public static Texture bluestone = new Texture("E:\\eclipse-workspace\\RayCastingProject\\res\\wood.jpg", 64);
+	public static Texture stone = new Texture("E:\\eclipse-workspace\\RayCastingProject\\res\\redbrick.jpg", 64);
 }
