@@ -60,6 +60,12 @@ public class Camera implements KeyListener{
 		if(strLeft) {
 			double xDirL = Math.cos(Math.acos(xDir)+(Math.PI/2.0));
 			double yDirL = Math.sin(Math.asin(yDir)+(Math.PI/2.0));
+			if(xDir<0) {
+				yDirL*=(-1);
+			}
+			if(yDir<0) {
+				xDirL*=(-1);
+			}
 			if(map[(int)(xPos + xDirL * MOVE_SPEED)][(int)yPos] == 0) {  //xPos + x Coordinate on unit circle e.g( 0 +.3*10) every update, so you move.
 				xPos+=xDirL*MOVE_SPEED;
 			}
@@ -69,6 +75,12 @@ public class Camera implements KeyListener{
 		if(strRight) {
 			double xDirR = Math.cos(Math.acos(xDir)-(Math.PI/2.0));
 			double yDirR = Math.sin(Math.asin(yDir)-(Math.PI/2.0));
+			if(xDir<0) {
+				yDirR*=(-1);
+			}
+			if(yDir<0) {
+				xDirR*=(-1);
+			}
 			if(map[(int)(xPos + xDirR * MOVE_SPEED)][(int)yPos] == 0) {  //xPos + x Coordinate on unit circle e.g( 0 +.3*10) every update, so you move.
 				xPos+=xDirR*MOVE_SPEED;
 			}
