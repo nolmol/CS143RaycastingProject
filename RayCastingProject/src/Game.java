@@ -99,6 +99,7 @@ public class Game extends JFrame implements Runnable{
 		}
 	}
 	public static void main(String [] args) {
+		System.setProperty("sun.java2d.opengl", "true");
 		Game game = new Game();
 	}
 }
