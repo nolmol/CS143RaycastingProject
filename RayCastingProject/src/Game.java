@@ -7,7 +7,8 @@ import java.util.ArrayList;
 import javax.swing.JFrame;
 
 public class Game extends JFrame implements Runnable{
-	
+	int screenWidth = 1600;
+	int screenHeight = 900;
 	private static final long serialVersionUID = 1L;
 	public int mapWidth = 15;
 	public int mapHeight = 15;
@@ -24,7 +25,7 @@ public class Game extends JFrame implements Runnable{
 			{1,0,0,0,0,0,0,0,0,0,0,0,0,0,2},
 			{1,0,0,0,0,0,0,0,0,0,0,0,0,0,2},
 			{1,0,0,0,0,0,0,0,0,0,0,0,0,0,2},
-			{1,0,0,0,0,0,0,0,0,0,0,0,0,0,2},
+			{1,0,0,0,0,0,1,0,0,0,0,0,0,0,2},
 			{1,0,0,0,0,0,0,0,0,0,0,0,0,0,2},
 			{1,0,0,0,0,0,0,0,0,0,0,0,0,0,2},
 			{1,0,0,0,0,0,0,0,0,0,0,0,0,0,2},
@@ -38,17 +39,17 @@ public class Game extends JFrame implements Runnable{
 		};
 	public Game() {
 		thread = new Thread(this);
-		image = new BufferedImage(1600, 900, BufferedImage.TYPE_INT_RGB);
+		image = new BufferedImage(screenWidth, screenHeight, BufferedImage.TYPE_INT_RGB);
 		pixels = ((DataBufferInt)image.getRaster().getDataBuffer()).getData();
 		textures = new ArrayList<Texture>();
 		textures.add(Texture.wood);
 		textures.add(Texture.brick);
 		textures.add(Texture.bluestone);
 		textures.add(Texture.stone);
-		camera = new Camera(5, 4, 1, 0, 0, -.66);
-		screen = new Screen(map, mapWidth, mapHeight, textures, 1600, 900);
+		camera = new Camera(1.5, 1.5, 1, 0, 0, -.66);
+		screen = new Screen(map, mapWidth, mapHeight, textures, screenWidth, screenHeight);
 		addKeyListener(camera);
-		setSize(1600, 900);
+		setSize(screenWidth, screenHeight);
 		setResizable(false);
 		setTitle("3D Engine");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -99,6 +100,7 @@ public class Game extends JFrame implements Runnable{
 		}
 	}
 	public static void main(String [] args) {
+		System.setProperty("sun.java2d.opengl", "true");
 		Game game = new Game();
 	}
 }
