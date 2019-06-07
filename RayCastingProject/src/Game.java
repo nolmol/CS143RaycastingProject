@@ -9,6 +9,7 @@ import javax.swing.JFrame;
 public class Game extends JFrame implements Runnable{
 	int screenWidth = 1600;
 	int screenHeight = 900;
+	double fps = 0, frameCount = 0;
 	private static final long serialVersionUID = 1L;
 	public int mapWidth = 15;
 	public int mapHeight = 15;
@@ -77,14 +78,36 @@ public class Game extends JFrame implements Runnable{
 			return;
 		}
 		Graphics g = bs.getDrawGraphics();
+		
+		g.setColor(Color.WHITE);
 		g.drawImage(image, 0, 0, image.getWidth(), image.getHeight(), null);
+		//Center
+		g.fillRect(screenWidth/2 - 1, screenHeight/2 - 1, 2, 2);
+		g.setColor(Color.LIGHT_GRAY);
+		//Bottom
+		g.fillRect(screenWidth/2 - 1, screenHeight/2 + 6, 2, 12);
+		//Right
+		g.fillRect(screenWidth/2 + 6, screenHeight/2 - 1, 12, 2);
+		//Left     x-axis            y-axis             x-size, y-size
+		g.fillRect(screenWidth/2 - 18, screenHeight/2 - 1, 12, 2);
+		//Top
+		g.fillRect(screenWidth/2 - 1, screenHeight/2 - 18, 2, 12);
+		
+		g.drawString("FPS: " + fps, screenWidth - 60, 50);
+		
 		bs.show();
+		g.dispose();
 	}
 	public void run() {
 		long lastTime = System.nanoTime();
 		final double ns = 1000000000.0 / 60.0;//60 times per second
 		double delta = 0;
 		requestFocus();
+		//Update fps
+		fps = frameCount / System.nanoTime();
+		if (delta >= 1) {
+			fps = 60;
+		}
 		while(running) {
 			long now = System.nanoTime();
 			delta = delta + ((now-lastTime) / ns);
@@ -96,6 +119,8 @@ public class Game extends JFrame implements Runnable{
 				camera.update(map);
 				delta--;
 			}
+			//add frame per render
+			frameCount++;
 			render();//displays to the screen unrestricted time
 		}
 	}
