@@ -5,11 +5,14 @@ import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
 import java.util.ArrayList;
 import javax.swing.JFrame;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class Game extends JFrame implements Runnable{
 	int screenWidth = 1600;
 	int screenHeight = 900;
 	double fps = 0, frameCount = 0;
+	public long lastTime = 0;
 	private static final long serialVersionUID = 1L;
 	public int mapWidth = 15;
 	public int mapHeight = 15;
@@ -92,9 +95,18 @@ public class Game extends JFrame implements Runnable{
 		g.fillRect(screenWidth/2 - 18, screenHeight/2 - 1, 12, 2);
 		//Top
 		g.fillRect(screenWidth/2 - 1, screenHeight/2 - 18, 2, 12);
+		//Display FPS
+		g.drawString("FPS: " + (fps - (fps % .1) + 0.1), screenWidth - 64, 50);
 		
-		g.drawString("FPS: " + fps, screenWidth - 60, 50);
-		
+		frameCount++;
+		//Update fps
+		if (frameCount % 20 == 0) {
+			fps = ((1000000000.0 / (System.nanoTime() - lastTime)) * 6); //one second(nano) divided by amount of time it takes for one frame to finish
+			if (fps > 60) {
+				fps = 60;
+			}
+			lastTime = System.nanoTime();
+		}
 		bs.show();
 		g.dispose();
 	}
@@ -103,11 +115,7 @@ public class Game extends JFrame implements Runnable{
 		final double ns = 1000000000.0 / 60.0;//60 times per second
 		double delta = 0;
 		requestFocus();
-		//Update fps
-		fps = frameCount / System.nanoTime();
-		if (delta >= 1) {
-			fps = 60;
-		}
+
 		while(running) {
 			long now = System.nanoTime();
 			delta = delta + ((now-lastTime) / ns);
@@ -119,8 +127,6 @@ public class Game extends JFrame implements Runnable{
 				camera.update(map);
 				delta--;
 			}
-			//add frame per render
-			frameCount++;
 			render();//displays to the screen unrestricted time
 		}
 	}
